@@ -16,7 +16,8 @@ functions:
           cors: true
 
 plugins:
-  - serverless-aws-documentation
+  - serverless-aws-documentation,
+  - serverless-offline
 
 custom:
   documentation:

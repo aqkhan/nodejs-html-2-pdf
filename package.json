@@ -2,10 +2,12 @@
   "name": "my-service",
   "version": "1.0.0",
   "dependencies": {
-    "puppeteer": "^6.0.3",
-    "aws-sdk": "^2.732.0"
+    "aws-sdk": "^2.732.0",
+    "dotenv": "^16.0.3",
+    "puppeteer": "^6.0.3"
   },
   "devDependencies": {
-    "serverless": "^2.0.0"
+    "serverless": "^2.0.0",
+    "serverless-offline": "^12.0.2"
   }
 }

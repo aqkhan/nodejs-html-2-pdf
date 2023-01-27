@@ -1,3 +1,4 @@
+const dotenv = require('dotenv')
 const AWS = require("aws-sdk");
 const s3 = new AWS.S3();
 const puppeteer = require("puppeteer");
@@ -21,9 +22,15 @@ exports.handler = async (event, context) => {
     const key = `pdfs/${Date.now()}.pdf`;
 
     // Upload the PDF to the S3 bucket
+    const s3 = new AWS.S3({
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+      bucket: process.env.AWS_BUCKET_NAME
+    })
+
     await s3
       .putObject({
-        Bucket: "my-bucket",
+        Bucket: bucket,
         Key: key,
         Body: pdf,
         ContentType: "application/pdf",
