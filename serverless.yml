@@ -1,0 +1,67 @@
+service: my-service
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
+  region: us-west-2
+
+functions:
+  pdfConverter:
+    handler: handler.handler
+    events:
+      - http:
+          path: /pdf
+          method: get
+          cors: true
+
+plugins:
+  - serverless-aws-documentation
+
+custom:
+  documentation:
+    api:
+      info:
+        title: PDF Converter API
+        version: 1.0.0
+      basePath: /dev
+      schemes:
+        - https
+      paths:
+        '/pdf':
+          get:
+            summary: Convert HTML to PDF
+            parameters:
+              - in: query
+                name: url
+                required: true
+                type: string
+                description: The URL of the HTML page to convert to PDF
+            responses:
+              200:
+                description: PDF created and stored on S3
+                schema:
+                  $ref: '#/definitions/PdfResponse'
+              500:
+                description: Error creating PDF
+                schema:
+                  $ref: '#/definitions/ErrorResponse'
+    definitions:
+      PdfResponse:
+        type: object
+        properties:
+          message:
+            type: string
+            description: Success message
+          pdfUrl:
+            type: string
+            description: The URL of the PDF file stored on S3
+      ErrorResponse:
+        type: object
+        properties:
+          message:
+            type: string
+            description: Error message
+          error:
+            type: object
+            description: The error object
